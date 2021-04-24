@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -22,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private bool Dead;
     private float LastTimeParticle;
     private bool WasGround;
+    private int MapIndex;
 
     private void Awake()
     {
@@ -96,15 +96,14 @@ public class PlayerMovement : MonoBehaviour
     {
         Dead = true;
         GetComponentInChildren<SpriteRenderer>().enabled = false;
-        StartCoroutine(ReloadScene());
         DeadParticles.Play();
         CameraStress.InduceStress(1.0f);
+        GameManager.Instance.NotifyDead(MapIndex);
     }
 
-    private IEnumerator ReloadScene()
+
+    public void SetMapIndex(int index)
     {
-        const string sceneName = "MainScene";
-        yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene(sceneName);
+        MapIndex = index;
     }
 }
