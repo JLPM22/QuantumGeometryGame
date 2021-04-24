@@ -10,15 +10,23 @@ public class PlayerMovement : MonoBehaviour
     public float RotationSpeed = 1.0f;
     public Transform GroundCheck;
     public Transform CubeVisual;
+    public ParticleSystem GroundParticles;
+    public float TimeBetweenParticles = 0.1f;
+    public ParticleSystem DeadParticles;
+    public StressReceiver CameraStress;
 
     private int EnemyLayer;
     private Rigidbody2D Rigidbody2D;
 
     private bool Jump;
     private bool Dead;
+    private float LastTimeParticle;
+    private bool WasGround;
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
+
         Rigidbody2D = GetComponent<Rigidbody2D>();
 
         EnemyLayer = LayerMask.NameToLayer("Enemy");
@@ -26,13 +34,27 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (Dead) return;
+
         bool ground = Physics2D.Raycast(GroundCheck.transform.position, Vector2.down, 0.05f);
 
         if (ground)
         {
             Quaternion rot = CubeVisual.rotation;
-            rot.z = Mathf.Round(rot.z / 90) * 90;
+            rot.z = 0.0f;
             CubeVisual.rotation = rot;
+
+            if (LastTimeParticle + TimeBetweenParticles < Time.time)
+            {
+                GroundParticles.Emit(1);
+                LastTimeParticle = Time.time;
+            }
+
+            if (!WasGround)
+            {
+                CameraStress.InduceStress(0.2f);
+                PostprocessManager.Instance.ChangeColor();
+            }
         }
         else
         {
@@ -40,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Jump = ground && (Jump || Input.GetKey(KeyCode.Space));
+        WasGround = ground;
     }
 
     private void FixedUpdate()
@@ -74,6 +97,8 @@ public class PlayerMovement : MonoBehaviour
         Dead = true;
         GetComponentInChildren<SpriteRenderer>().enabled = false;
         StartCoroutine(ReloadScene());
+        DeadParticles.Play();
+        CameraStress.InduceStress(1.0f);
     }
 
     private IEnumerator ReloadScene()
