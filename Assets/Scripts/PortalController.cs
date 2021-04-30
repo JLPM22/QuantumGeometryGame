@@ -11,11 +11,11 @@ public class PortalController : MonoBehaviour
     {
         if (NextQuantum)
         {
-            GameManager.Instance.NextQuantum(QuantumIndex);
+            PostprocessManager.Instance.QuantumChange(() => GameManager.Instance.NextQuantum(QuantumIndex));
         }
         else
         {
-            GameManager.Instance.Next(QuantumIndex);
+            PostprocessManager.Instance.QuantumChange(() => GameManager.Instance.Next(QuantumIndex));
         }
     }
 }
