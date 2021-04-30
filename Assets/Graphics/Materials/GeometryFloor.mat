@@ -119,7 +119,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - MainColor: {r: 4, g: 4, b: 4, a: 0}
+    - MainColor: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 0}
     - Vector2_5117c98000304cce8918b7c801209d3b: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

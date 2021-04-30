@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D Rigidbody2D;
 
     private bool Jump;
-    private bool Dead;
+    [HideInInspector] public bool Dead;
     private float LastTimeParticle;
     private bool WasGround;
     private int MapIndex;
@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (!WasGround)
             {
-                CameraStress.InduceStress(0.25f);
+                CameraStress.InduceStress(0.2f);
                 PostprocessManager.Instance.ChangeColor();
             }
         }
@@ -92,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         Dead = true;
         GetComponentInChildren<SpriteRenderer>().enabled = false;

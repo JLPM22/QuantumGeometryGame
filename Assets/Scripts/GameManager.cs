@@ -54,12 +54,22 @@ public class GameManager : MonoBehaviour
     {
         if (Quantum)
         {
-            // CHANGE THIS TO ACTUAL QUANTUM
-            QuantumAlive -= 1;
-            if (QuantumAlive == 0)
+            // Turn off Camera
+            // Camera camera = Maps[mapIndex].GetComponentInChildren<Camera>();
+            // camera.backgroundColor = Color.black;
+            // camera.cullingMask = 0;
+            // Compute probability to die
+            float p = Random.Range(0.0f, 1.0f);
+            if (p < (1.0f / QuantumAlive))
             {
+                for (int i = Current; i < Current + 4; ++i)
+                {
+                    PlayerMovement player = Maps[i].GetComponentInChildren<PlayerMovement>();
+                    if (!player.Dead) player.Die();
+                }
                 StartCoroutine(ReloadScene());
             }
+            QuantumAlive -= 1;
         }
         else
         {
