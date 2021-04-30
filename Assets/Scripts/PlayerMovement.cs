@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (!WasGround)
             {
-                CameraStress.InduceStress(0.2f);
+                CameraStress.InduceStress(0.25f);
                 PostprocessManager.Instance.ChangeColor();
             }
         }

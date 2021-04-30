@@ -8,10 +8,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public List<GameObject> Maps;
-    public float OffsetMaps = 1000.0f;
 
     private int Current;
     private bool Quantum;
+    private int QuantumAlive;
+    private int LastQuantumIndex = -1;
 
     private void Awake()
     {
@@ -19,30 +20,46 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    public void NextQuantum()
+    public void NextQuantum(int quantumIndex)
     {
+        if (quantumIndex <= LastQuantumIndex) return;
+
         Advance();
 
+        for (int i = Current; i < Current + 4; ++i)
+        {
+            Maps[i].SetActive(true);
+            Maps[i].GetComponentInChildren<PlayerMovement>().SetMapIndex(i);
+        }
 
-
+        QuantumAlive = 4;
         Quantum = true;
+        LastQuantumIndex = quantumIndex;
     }
 
-    public void Next()
+    public void Next(int quantumIndex)
     {
+        if (quantumIndex <= LastQuantumIndex) return;
+
         Advance();
 
         Maps[Current].SetActive(true);
         Maps[Current].GetComponentInChildren<PlayerMovement>().SetMapIndex(Current);
 
         Quantum = false;
+        LastQuantumIndex = quantumIndex;
     }
 
     public void NotifyDead(int mapIndex)
     {
         if (Quantum)
         {
-
+            // CHANGE THIS TO ACTUAL QUANTUM
+            QuantumAlive -= 1;
+            if (QuantumAlive == 0)
+            {
+                StartCoroutine(ReloadScene());
+            }
         }
         else
         {
@@ -61,7 +78,7 @@ public class GameManager : MonoBehaviour
     {
         if (Quantum)
         {
-            for (int i = Current; i < 4; ++i)
+            for (int i = Current; i < Current + 4; ++i)
             {
                 Maps[i].SetActive(false);
             }
