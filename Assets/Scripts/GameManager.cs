@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Assert(Instance == null, "Singleton");
         Instance = this;
+
+        Time.timeScale = 0.5f;
     }
 
     public void NextQuantum(int quantumIndex)

@@ -6,6 +6,7 @@ public class PortalController : MonoBehaviour
 {
     public bool NextQuantum;
     public int QuantumIndex;
+    public bool EndGame;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
