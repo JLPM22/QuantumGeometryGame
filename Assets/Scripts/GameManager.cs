@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public TextMeshProUGUI PercentageText;
     public List<GameObject> Maps;
 
     private int Current;
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviour
         QuantumAlive = 4;
         Quantum = true;
         LastQuantumIndex = quantumIndex;
+        UpdatePercentageText();
     }
 
     public void Next(int quantumIndex)
@@ -50,6 +53,7 @@ public class GameManager : MonoBehaviour
 
         Quantum = false;
         LastQuantumIndex = quantumIndex;
+        UpdatePercentageText();
     }
 
     public void NotifyDead(int mapIndex)
@@ -72,6 +76,7 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(ReloadScene());
             }
             QuantumAlive -= 1;
+            UpdatePercentageText();
         }
         else
         {
@@ -100,6 +105,33 @@ public class GameManager : MonoBehaviour
         {
             Maps[Current].SetActive(false);
             Current += 1;
+        }
+    }
+
+    private void UpdatePercentageText()
+    {
+        if (Quantum)
+        {
+            if (QuantumAlive == 4)
+            {
+                PercentageText.text = "25%";
+            }
+            else if (QuantumAlive == 3)
+            {
+                PercentageText.text = "33%";
+            }
+            else if (QuantumAlive == 2)
+            {
+                PercentageText.text = "50%";
+            }
+            else if (QuantumAlive == 1)
+            {
+                PercentageText.text = "100%";
+            }
+        }
+        else
+        {
+            PercentageText.text = "100%";
         }
     }
 }
