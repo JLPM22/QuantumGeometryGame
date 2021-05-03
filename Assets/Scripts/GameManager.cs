@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         Debug.Assert(Instance == null, "Singleton");
         Instance = this;
 
-        Time.timeScale = 0.8f;
+        Application.targetFrameRate = 60;
     }
 
     public void NextQuantum(int quantumIndex)

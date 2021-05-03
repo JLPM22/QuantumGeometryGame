@@ -25,8 +25,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        Application.targetFrameRate = 60;
-
         Rigidbody2D = GetComponent<Rigidbody2D>();
 
         EnemyLayer = LayerMask.NameToLayer("Enemy");
