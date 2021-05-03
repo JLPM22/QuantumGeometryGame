@@ -13,9 +13,11 @@ public class PlayerMovement : MonoBehaviour
     public float TimeBetweenParticles = 0.1f;
     public ParticleSystem DeadParticles;
     public StressReceiver CameraStress;
+    public AudioClip DeathSound, JumpSound;
 
     private int EnemyLayer;
     private Rigidbody2D Rigidbody2D;
+    private AudioSource AudioSource;
 
     private bool Jump;
     [HideInInspector] public bool Dead;
@@ -26,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         Rigidbody2D = GetComponent<Rigidbody2D>();
+        AudioSource = GetComponent<AudioSource>();
 
         EnemyLayer = LayerMask.NameToLayer("Enemy");
     }
@@ -59,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
             CubeVisual.Rotate(Vector3.back * RotationSpeed * Time.deltaTime);
         }
 
-        Jump = ground && (Jump || Input.GetKey(KeyCode.Space));
+        Jump = ground && (Jump || IsInput());
         WasGround = ground;
     }
 
@@ -78,6 +81,21 @@ public class PlayerMovement : MonoBehaviour
         if (Jump)
         {
             Rigidbody2D.AddForce(Vector3.up * JumpForce * Rigidbody2D.mass, ForceMode2D.Impulse);
+            // HARDCODED
+            PlayerMovement[] players = FindObjectsOfType<PlayerMovement>(false);
+            if (players.Length == 1)
+                AudioSource.PlayOneShot(JumpSound, 0.2f);
+            else
+            {
+                for (int i = 0; i < players.Length; ++i)
+                {
+                    if (!players[i].Dead)
+                    {
+                        if (players[i] == this) AudioSource.PlayOneShot(JumpSound, 0.2f);
+                        break;
+                    }
+                }
+            }
             Jump = false;
         }
     }
@@ -97,11 +115,20 @@ public class PlayerMovement : MonoBehaviour
         DeadParticles.Play();
         CameraStress.InduceStress(1.0f);
         GameManager.Instance.NotifyDead(MapIndex);
+        AudioSource.PlayOneShot(DeathSound, 0.7f);
     }
 
 
     public void SetMapIndex(int index)
     {
         MapIndex = index;
+    }
+
+    private bool IsInput()
+    {
+        return Input.GetKey(KeyCode.Space) ||
+               Input.GetKey(KeyCode.W) ||
+               Input.GetKey(KeyCode.UpArrow) ||
+               Input.touchCount > 0;
     }
 }

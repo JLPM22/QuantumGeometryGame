@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     private int QuantumAlive;
     private int LastQuantumIndex = -1;
 
+    public int NumberDeads { get; private set; }
+
     private void Awake()
     {
         Debug.Assert(Instance == null, "Singleton");
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(ReloadScene());
             }
             QuantumAlive -= 1;
+            NumberDeads += 1;
             UpdatePercentageText();
         }
         else

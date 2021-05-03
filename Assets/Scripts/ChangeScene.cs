@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class ChangeScene : MonoBehaviour
 {
     public string SceneName;
-    public float TimeScale = 0.8f;
+    public float TimeScale = 0.9f;
 
     public void DoChangeScene()
     {

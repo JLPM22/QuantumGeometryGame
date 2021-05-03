@@ -55,4 +55,14 @@ public class PostprocessManager : MonoBehaviour
         }
         completed.Invoke();
     }
+
+    public void ColorWhite()
+    {
+        Color c = Color.white;
+        Bloom bloom;
+        if (Volume.profile.TryGet<Bloom>(out bloom))
+        {
+            bloom.tint.value = c;
+        }
+    }
 }
