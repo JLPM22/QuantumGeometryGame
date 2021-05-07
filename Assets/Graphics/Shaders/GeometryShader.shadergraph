@@ -11,9 +11,6 @@
         },
         {
             "m_Id": "ffa62ae4f52d49b3af4852dd57f2f8f3"
-        },
-        {
-            "m_Id": "d3d7549fe0dd4126be366cf6ba6e4a60"
         }
     ],
     "m_Keywords": [],
@@ -1773,29 +1770,6 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
-}
-
-{
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
-    "m_ObjectId": "d3d7549fe0dd4126be366cf6ba6e4a60",
-    "m_Guid": {
-        "m_GuidSerialized": "941ffdbd-c6b3-4c82-80de-4fdf480b9f01"
-    },
-    "m_Name": "DitherSize",
-    "m_DefaultReferenceName": "Vector1_d3d7549fe0dd4126be366cf6ba6e4a60",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_Value": 1.0,
-    "m_FloatType": 0,
-    "m_RangeValues": {
-        "x": 0.0,
-        "y": 1.0
-    }
 }
 
 {
